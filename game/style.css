@@ -1,0 +1,33 @@
+#map{
+    width: 800px ;
+    height:800px;
+    background-color: blue;
+    position: relative;
+}
+
+#score{
+    width: 800px ;
+    height:50px;
+    background-color: blueviolet;
+}
+
+#screen{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: top;
+}
+
+#player{
+    width: 40px;
+    height:40px;
+    background-color: black;
+    position: absolute;
+}
+
+#trap {
+    width: 40px ;
+    height:20px;
+    background-color: red;
+    position: absolute;
+}
