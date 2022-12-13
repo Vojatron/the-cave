@@ -8,18 +8,67 @@ var hori = 400
 var vert = 400
 var step = 10
 
-var traps = [
-    {name: trap1, x: 0, y: 0}, 
-    {name: trap2, x: 200, y: 0}
+var trapsx = [
+    {pos: "top", x: 20, y: 0}, 
+    {pos: "top", x: 100, y: 0},
+    {pos: "top", x: 180, y: 0},
+    {pos: "top", x: 260, y: 0},
+    {pos: "top", x: 340, y: 0},
+    {pos: "top", x: 420, y: 0},
+    {pos: "top", x: 500, y: 0},
+    {pos: "top", x: 580, y: 0},
+    {pos: "top", x: 660, y: 0},
+    {pos: "top", x: 740, y: 0},
+    {pos: "bot", x: 20, y: 780},
+    {pos: "bot", x: 100, y: 780},
+    {pos: "bot", x: 180, y: 780},
+    {pos: "bot", x: 260, y: 780},
+    {pos: "bot", x: 340, y: 780},
+    {pos: "bot", x: 420, y: 780},
+    {pos: "bot", x: 500, y: 780},
+    {pos: "bot", x: 580, y: 780},
+    {pos: "bot", x: 660, y: 780},
+    {pos: "bot", x: 740, y: 780},
 ]
 
-function createAllTraps (traps){
-    for (let i = 0; i < traps.length; i++){
-        var createTraps = document.createElement("div")
-        createTraps.setAttribute("id", "trap")
-        createTraps.style.left = traps[i].x + "px"
-        createTraps.style.top = traps[i].y + "px"
-        map.appendChild(createTraps)
+var trapsy =[
+    {pos: "right", x: 0, y: 20}, 
+    {pos: "right", x: 0, y: 100},
+    {pos: "right", x: 0, y: 180},
+    {pos: "right", x: 0, y: 260},
+    {pos: "right", x: 0, y: 340},
+    {pos: "right", x: 0, y: 420},
+    {pos: "right", x: 0, y: 500},
+    {pos: "right", x: 0, y: 580},
+    {pos: "right", x: 0, y: 660},
+    {pos: "right", x: 0, y: 740},
+    {pos: "left", x: 780, y: 20},
+    {pos: "left", x: 780, y: 100},
+    {pos: "left", x: 780, y: 180},
+    {pos: "left", x: 780, y: 260},
+    {pos: "left", x: 780, y: 340},
+    {pos: "left", x: 780, y: 420},
+    {pos: "left", x: 780, y: 500},
+    {pos: "left", x: 780, y: 580},
+    {pos: "left", x: 780, y: 660},
+    {pos: "left", x: 780, y: 740},
+]
+
+function createAllTraps (trapsx, trapsy){
+    for (let i = 0; i < trapsx.length; i++){
+        var createTrapsx = document.createElement("div")
+        createTrapsx.setAttribute("id", "trapx")
+        createTrapsx.style.left = trapsx[i].x + "px"
+        createTrapsx.style.top = trapsx[i].y + "px"
+        map.appendChild(createTrapsx)
+    }
+
+    for (let j = 0; j < trapsy.length; j++){
+        var createTrapsy = document.createElement("div")
+        createTrapsy.setAttribute("id", "trapy")
+        createTrapsy.style.left = trapsy[j].x + "px"
+        createTrapsy.style.top = trapsy[j].y + "px"
+        map.appendChild(createTrapsy)
     }
 }
 
@@ -70,7 +119,7 @@ var start = setInterval(function(){
 }
 
 game()
-createAllTraps(traps) 
+createAllTraps(trapsx, trapsy) 
 
 // window.addEventListener('keydown', function (e) {
 //   if (e.key === 'ArrowUp') {
