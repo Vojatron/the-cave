@@ -6,7 +6,7 @@ var directiony = 0
 
 var hori = 400
 var vert = 400
-var step = 10
+var step = 0.5
 
 var trapsx = [
     {pos: "top", x: 20, y: 0}, 
@@ -121,7 +121,7 @@ function game (){
 var start = setInterval(function(){
         movex()
         movey()
-    }, 100)
+    }, 1)
 }
 
 game()
