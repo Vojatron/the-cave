@@ -25,17 +25,55 @@
     position: absolute;
 }
 
-#trapx{
+.trapx{
     width: 40px ;
     height:20px;
-    background-color: red;
+    background-color: grey;
     position: absolute;
 }
 
-#trapy{
+.trapy{
     width: 20px ;
     height:40px;
-    background-color: red;
+    background-color: grey;
     position: absolute;
 }
+/* 
+#candyleft{
+    background-image: url("./Assets/candyleft.png");
+    height: 20px;
+    width: 40px;
+    position: absolute;
+    background-size: contain; */
+/* } */
+
+#candyright{
+    background-image: url("./Assets/candyright.png");
+    height: 20px;
+    width: 40px;
+    position: absolute;
+    background-size: contain;
+}
+
+
+/* #candydown{
+    background-image: url("./Assets/candydown.png");
+    left: 80px;
+    top: 50px;
+    height: 40px;
+    width: 20px;
+    position: absolute;
+    background-size: contain;
+}
+
+#candyup{
+    background-image: url("./Assets/candyup.png");
+    left: 100px;
+    top: 50px;
+    height: 40px;
+    width: 20px;
+    position: absolute;
+    background-size: contain; */
+
+
 
