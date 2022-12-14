@@ -99,10 +99,16 @@ window.addEventListener("keyup", function(e){
 })
 
 function movex(){
-    hori += step * directionx
-    player.style.left = hori + "px"
-}
+    if ( hori + 1 < 760 && hori - 1 > 0){
+        hori += step * directionx
+        player.style.left = hori + "px"
+        
+    }if (hori == 760 || hori == 0) {
+        hori += step * directionx * -1
+        player.style.left = hori + "px"
+    }
 
+}
 
 
 function movey(){
