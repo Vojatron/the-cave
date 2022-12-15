@@ -51,7 +51,8 @@ var directiony = 0
 
 var hori = 400
 var vert = 400
-var step = 0.5
+var stepx = 0.5
+var stepy = 0.5
 
 function drawTrapsX (trapsx) {
     for (let i = 0; i < trapsx.length; i++){
@@ -67,70 +68,6 @@ function drawTrapsY (trapsy) {
 
 drawTrapsX(trapsx)
 drawTrapsY(trapsy)
-// var trapsx = [
-//     {side: "top", x: 20, y: 0}, 
-//     {side: "top", x: 100, y: 0},
-//     {side: "top", x: 180, y: 0},
-//     {side: "top", x: 260, y: 0},
-//     {side: "top", x: 340, y: 0},
-//     {side: "top", x: 420, y: 0},
-//     {side: "top", x: 500, y: 0},
-//     {side: "top", x: 580, y: 0},
-//     {side: "top", x: 660, y: 0},
-//     {side: "top", x: 740, y: 0},
-//     {side: "bot", x: 20, y: 780},
-//     {side: "bot", x: 100, y: 780},
-//     {side: "bot", x: 180, y: 780},
-//     {side: "bot", x: 260, y: 780},
-//     {side: "bot", x: 340, y: 780},
-//     {side: "bot", x: 420, y: 780},
-//     {side: "bot", x: 500, y: 780},
-//     {side: "bot", x: 580, y: 780},
-//     {side: "bot", x: 660, y: 780},
-//     {side: "bot", x: 740, y: 780},
-// ]
-
-// var trapsy =[
-//     {side: "right", x: 0, y: 20}, 
-//     {side: "right", x: 0, y: 100},
-//     {side: "right", x: 0, y: 180},
-//     {side: "right", x: 0, y: 260},
-//     {side: "right", x: 0, y: 340},
-//     {side: "right", x: 0, y: 420},
-//     {side: "right", x: 0, y: 500},
-//     {side: "right", x: 0, y: 580},
-//     {side: "right", x: 0, y: 660},
-//     {side: "right", x: 0, y: 740},
-//     {side: "left", x: 780, y: 20},
-//     {side: "left", x: 780, y: 100},
-//     {side: "left", x: 780, y: 180},
-//     {side: "left", x: 780, y: 260},
-//     {side: "left", x: 780, y: 340},
-//     {side: "left", x: 780, y: 420},
-//     {side: "left", x: 780, y: 500},
-//     {side: "left", x: 780, y: 580},
-//     {side: "left", x: 780, y: 660},
-//     {side: "left", x: 780, y: 740},
-// ]
-
-// function createAllTraps (trapsx, trapsy){
-//     for (let i = 0; i < trapsx.length; i++){
-//         var createTrapsx = document.createElement("div")
-//         createTrapsx.setAttribute("id", "trapx")
-//         createTrapsx.style.left = trapsx[i].x + "px"
-//         createTrapsx.style.top = trapsx[i].y + "px"
-//         map.appendChild(createTrapsx)
-//     }
-
-//     for (let j = 0; j < trapsy.length; j++){
-//         var createTrapsy = document.createElement("div")
-//         createTrapsy.setAttribute("id", "trapy")
-//         createTrapsy.style.left = trapsy[j].x + "px"
-//         createTrapsy.style.top = trapsy[j].y + "px"
-//         map.appendChild(createTrapsy)
-//     }
-// }
-
 
 window.addEventListener("keydown", function(e){
     if ( e.key === 'ArrowDown' ){
@@ -144,6 +81,10 @@ window.addEventListener("keydown", function(e){
 
     } else if (e.key === 'ArrowRight'){
         directionx = 1
+
+    } else if (e.key ==="Control"){
+        stepx = 30
+        stepy = 30
     }
 })
 
@@ -158,19 +99,32 @@ window.addEventListener("keyup", function(e){
 
 function movex(){
     if ( hori + 1 < 760 && hori - 1 > 0){
-        hori += step * directionx
+        hori += stepx * directionx
         player.style.left = hori + "px"
-        
-    }if (hori == 760 || hori == 0) {
-        hori += step * directionx * -1
+        stepx = 0.5
+    } else if (hori + 1 >= 760) {
+        hori += stepx * -1
+        player.style.left = hori + "px"
+
+    }else if ( hori - 1 <= 0) {
+        hori += stepx * 1
         player.style.left = hori + "px"
     }
 }
 
-
 function movey(){
-    vert += step * directiony
-    player.style.top = vert + "px"
+    if ( vert + 1 < 760 && vert - 1 > 0){
+        vert += stepy * directiony
+        player.style.top = vert + "px"
+        stepy = 0.5
+
+    } else if ( vert - 1 <= 0) {
+        vert += stepy * 1
+        player.style.top = vert + "px"
+    } else if ( vert + 1 >= 760) {
+        vert += stepy * - 1
+        player.style.top = vert + "px"
+    }
 }
 
 
@@ -189,8 +143,7 @@ function candyFly() {
     if (horicandy == 760){
         candyright.style.display = "none"
     }    
-    
-    horicandy += step
+    horicandy += stepx
     candyright.style.left = horicandy + "px"
 }
 

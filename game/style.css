@@ -1,8 +1,9 @@
 #map{
     width: 800px ;
     height:800px;
-    background-color: blue;
     position: relative;
+    background-image: url("./Assets/background-map.png");
+    background-size: contain; 
 }
 
 #score{
@@ -21,8 +22,9 @@
 #player{
     width: 40px;
     height:40px;
-    background-color: black;
     position: absolute;
+    background-image: url("./Assets/Santa/front1.png");
+    background-size: contain; 
 }
 
 .trapx{
@@ -38,14 +40,14 @@
     background-color: grey;
     position: absolute;
 }
-/* 
-#candyleft{
+
+.candyleft{
     background-image: url("./Assets/candyleft.png");
     height: 20px;
     width: 40px;
     position: absolute;
-    background-size: contain; */
-/* } */
+    background-size: contain;
+}
 
 #candyright{
     background-image: url("./Assets/candyright.png");
