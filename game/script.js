@@ -1,9 +1,11 @@
+import { Player } from "./player.js"
 import {Trap} from "./trap.js"
-const player = document.getElementById("player")
 const map = document.getElementById("map")
 
 const trapsx = []
 const trapsy = []
+
+var player = new Player()
 
 // const traps = [new Trap("top",20,0), new Trap ("top", 100, 0)]
 
@@ -45,15 +47,6 @@ createTrapsArray()
 var horicandy = 0
 var vertcandy = 20
 
-
-var directionx = 0
-var directiony = 0
-
-var hori = 400
-var vert = 400
-var stepx = 0.5
-var stepy = 0.5
-
 function drawTrapsX (trapsx) {
     for (let i = 0; i < trapsx.length; i++){
         trapsx[i].drawX(map)
@@ -71,67 +64,36 @@ drawTrapsY(trapsy)
 
 window.addEventListener("keydown", function(e){
     if ( e.key === 'ArrowDown' ){
-        directiony = 1
+        player.direction.directiony = 1
 
     } else if (e.key === 'ArrowUp'){
-        directiony = -1
+        player.direction.directiony = -1
 
     } else if (e.key === 'ArrowLeft'){
-        directionx = -1
+        player.direction.directionx = -1
 
     } else if (e.key === 'ArrowRight'){
-        directionx = 1
+        player.direction.directionx = 1
 
     } else if (e.key ==="Control"){
-        stepx = 30
-        stepy = 30
+        player.stepx = 30
+        player.stepy = 30
     }
 })
 
 window.addEventListener("keyup", function(e){
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp'){
-        directiony = 0
+        player.direction.directiony  = 0
 
     } else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
-        directionx = 0
+        player.direction.directionx = 0
     }
 })
 
-function movex(){
-    if ( hori + 1 < 760 && hori - 1 > 0){
-        hori += stepx * directionx
-        player.style.left = hori + "px"
-        stepx = 0.5
-    } else if (hori + 1 >= 760) {
-        hori += stepx * -1
-        player.style.left = hori + "px"
-
-    }else if ( hori - 1 <= 0) {
-        hori += stepx * 1
-        player.style.left = hori + "px"
-    }
-}
-
-function movey(){
-    if ( vert + 1 < 760 && vert - 1 > 0){
-        vert += stepy * directiony
-        player.style.top = vert + "px"
-        stepy = 0.5
-
-    } else if ( vert - 1 <= 0) {
-        vert += stepy * 1
-        player.style.top = vert + "px"
-    } else if ( vert + 1 >= 760) {
-        vert += stepy * - 1
-        player.style.top = vert + "px"
-    }
-}
-
-
 function game (){
-var start = setInterval(function(){
-        movex()
-        movey()
+ var start = setInterval(function(){
+        player.movex()
+        player.movey()
         candyFly()
     }, 1)
 }
@@ -139,6 +101,8 @@ var start = setInterval(function(){
 candyright.style.left = 20 + "px"
 candyright.style.top = 0 + "px"
 
+
+var stepx = 0.5
 function candyFly() {
     if (horicandy == 760){
         candyright.style.display = "none"
@@ -147,7 +111,7 @@ function candyFly() {
     candyright.style.left = horicandy + "px"
 }
 
-
+ 
 game()
 
 // window.addEventListener('keydown', function (e) {

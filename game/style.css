@@ -9,7 +9,9 @@
 #score{
     width: 800px ;
     height:50px;
-    background-color: blueviolet;
+    background-color: rgb(89, 118, 109);
+    position: relative;
+    background-size: contain; 
 }
 
 #screen{
@@ -23,9 +25,26 @@
     width: 40px;
     height:40px;
     position: absolute;
-    background-image: url("./Assets/Santa/front1.png");
+   
     background-size: contain; 
 }
+
+.back {
+    background-image: url(./Assets/Santa/back1.png), url(./Assets/Santa/back2.png), url(./Assets/Santa/back3.png);
+    }
+    
+.front{
+    background-image: url(./Assets/Santa/front1.png), url(./Assets/Santa/front2.png), url(./Assets/Santa/front3.png);
+    
+    }
+    
+.left{
+    background-image: url(./Assets/Santa/left1.png), url(./Assets/Santa/left2.png), url(./Assets/Santa/left3.png);
+    }
+    
+.right{
+    background-image: url(./Assets/Santa/right1.png), url(./Assets/Santa/right2.png), url(./Assets/Santa/right3.png);
+    }
 
 .trapx{
     width: 40px ;
@@ -76,6 +95,5 @@
     width: 20px;
     position: absolute;
     background-size: contain; */
-
 
 
