@@ -24,7 +24,7 @@ function createTrapsArray (){
         startingPointTop += 80
     } 
     for ( let j = 1; j <= 10; j++){
-        var trap = new Trap ("down", startingPointDown, 780 )
+        var trap = new Trap ("down", startingPointDown, 760 )
         trapsx.push(trap)
         startingPointDown += 80
     } 
