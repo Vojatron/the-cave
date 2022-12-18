@@ -116,12 +116,21 @@ function game() {
   }, 60)
 }
 
-candyright.style.left = 20 + "px"
-candyright.style.top = 0 + "px"
+function getRandomArrowX(min, max) {
+  min = Math.ceil(0);
+  max = Math.floor(20);
+  return Math.floor(Math.random() * (max - min) + min);
+} console.log(getRandomArrowX())
 
 
 var stepx = 100
 function candyFly() {
+
+  var trapShooting = getRandomArrowX()
+  candyright.style.left = trapsx[trapShooting].x + "px"
+  console.log(candyright.style.left)
+  candyright.style.top = trapsx[trapShooting].y + "px"
+  
   if (horicandy >= 760) {
     candyright.style.display = "none"
   }

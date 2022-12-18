@@ -10,6 +10,7 @@
   width: 800px;
   height: 70px;
   background-color: rgb(89, 118, 109);
+  background-image: url("./Assets/marcador.png");
   position: relative;
   background-size: contain;
   margin: auto;

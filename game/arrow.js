@@ -32,11 +32,19 @@ Arrow.prototype.drawX = function(map){
 let random = Math.random();
 
 function randomArrow(){
-    if (random > 0,5){
-    return  candyleft
- } else {
-    return candyup
- }
+    if (random > 0 && random <= 0.25){
+        return candyleft
+
+    } else if (random > 0.25 && random <= 0.50) {
+        return candyright
+
+    } else if (random > 0.50 && random <= 0.75) {
+        return candyup
+
+    } else {
+        return candydown
+    }
 }
+
 randomArrow()
 console.log (randomArrow())
