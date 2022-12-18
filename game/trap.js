@@ -21,3 +21,4 @@ Trap.prototype.drawY = function(map){
     map.appendChild(this.domTrap)
 }
 
+

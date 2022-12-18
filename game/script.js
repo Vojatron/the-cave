@@ -1,11 +1,15 @@
 import { Player } from "./player.js"
-import {Trap} from "./trap.js"
+import { Trap } from "./trap.js"
+import { Arrow } from "./arrow.js"
+import { score } from "./score.js"
+
 const map = document.getElementById("map")
 
 const trapsx = []
 const trapsy = []
 
-var player = new Player()
+const player = new Player()
+const arrow = new Arrow()
 
 // const traps = [new Trap("top",20,0), new Trap ("top", 100, 0)]
 
@@ -14,104 +18,118 @@ const candyleft = document.getElementById("candyleft")
 const candyup = document.getElementById("candyup")
 const cadydown = document.getElementById("candydown")
 
-var startingPointTop = 20
-var startingPointDown = 20
-var startingPointLeft = 20
-var startingPointRight = 20
 
-function createTrapsArray (){
-    for ( let i = 1; i <= 10; i++){
-        var trap = new Trap ("top", startingPointTop, 0 )
-        trapsx.push(trap)
-        startingPointTop += 80
-    } 
-    for ( let j = 1; j <= 10; j++){
-        var trap = new Trap ("down", startingPointDown, 760 )
-        trapsx.push(trap)
-        startingPointDown += 80
-    } 
-    for ( let k = 1; k <= 10; k++){
-        var trap = new Trap ("down", 0 , startingPointLeft )
-        trapsy.push(trap)
-        startingPointLeft += 80
-    } 
-    for ( let l = 1; l <= 10; l++){
-        var trap = new Trap ("down", 780 , startingPointRight )
-        trapsy.push(trap)
-        startingPointRight += 80
-    } 
+function createTrapsArray() {
+  let startingPointTop = 20
+  let startingPointDown = 20
+  let startingPointLeft = 20
+  let startingPointRight = 20
+
+  for (let i = 1; i <= 10; i++) {
+    var trap = new Trap("top", startingPointTop, 0)
+    trapsx.push(trap)
+    startingPointTop += 80
+  }
+  for (let j = 1; j <= 10; j++) {
+    var trap = new Trap("down", startingPointDown, 780)
+    trapsx.push(trap)
+    startingPointDown += 80
+  }
+  for (let k = 1; k <= 10; k++) {
+    var trap = new Trap("left", 0, startingPointLeft)
+    trapsy.push(trap)
+    startingPointLeft += 80
+  }
+  for (let l = 1; l <= 10; l++) {
+    var trap = new Trap("right", 780, startingPointRight)
+    trapsy.push(trap)
+    startingPointRight += 80
+  }
 }
 
-createTrapsArray()
+function gameLoop() {
+  update()
+  draw()
+}
+
+function update() {
+
+  setPlayerDirection()
+  player.update()
+}
+
+function draw() {
+  player.draw()
+  drawTrapsX(trapsx)
+  drawTrapsY(trapsy)
+}
 
 var horicandy = 0
 var vertcandy = 20
 
-function drawTrapsX (trapsx) {
-    for (let i = 0; i < trapsx.length; i++){
-        trapsx[i].drawX(map)
-    }
+function drawTrapsX(trapsx) {
+  for (let i = 0; i < trapsx.length; i++) {
+    trapsx[i].drawX(map)
+  }
 }
 
-function drawTrapsY (trapsy) {
-    for (let i = 0; i < trapsy.length; i++){
-        trapsy[i].drawY(map)
-    }
+function drawTrapsY(trapsy) {
+  for (let i = 0; i < trapsy.length; i++) {
+    trapsy[i].drawY(map)
+  }
 }
 
-drawTrapsX(trapsx)
-drawTrapsY(trapsy)
+const keys = {
+  ArrowUp: false,
+  ArrowDown: false,
+  ArrowLeft: false,
+  ArrowRight: false
+}
 
-window.addEventListener("keydown", function(e){
-    if ( e.key === 'ArrowDown' ){
-        player.direction.directiony = 1
 
-    } else if (e.key === 'ArrowUp'){
-        player.direction.directiony = -1
+function keyEvents(e) {
+  if (keys[e.code] !== undefined) { // check if its a key we are listening for
+    keys[e.code] = event.type === "keydown" // set the state up or down
+    e.preventDefault()  // stop default action
+  }
+}
 
-    } else if (e.key === 'ArrowLeft'){
-        player.direction.directionx = -1
+addEventListener("keyup", keyEvents)  // set up the listeners
+addEventListener("keydown", keyEvents)
 
-    } else if (e.key === 'ArrowRight'){
-        player.direction.directionx = 1
+function setPlayerDirection() {
+  player.direction.x = 0
+  player.direction.y = 0
+  if (keys.ArrowUp) { player.direction.y = -1 }
+  if (keys.ArrowDown) { player.direction.y = 1 }
+  if (keys.ArrowLeft) { player.direction.x = -1 }
+  if (keys.ArrowRight) { player.direction.x = 1 }
+}
 
-    } else if (e.key ==="Control"){
-        player.stepx = 30
-        player.stepy = 30
-    }
-})
 
-window.addEventListener("keyup", function(e){
-    if (e.key === 'ArrowDown' || e.key === 'ArrowUp'){
-        player.direction.directiony  = 0
-
-    } else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
-        player.direction.directionx = 0
-    }
-})
-
-function game (){
- var start = setInterval(function(){
-        player.movex()
-        player.movey()
-        candyFly()
-    }, 1)
+function game() {
+  createTrapsArray()
+  score()
+  const start = setInterval(function () {
+    gameLoop()
+    candyFly()
+  }, 60)
 }
 
 candyright.style.left = 20 + "px"
 candyright.style.top = 0 + "px"
 
 
-var stepx = 0.5
+var stepx = 100
 function candyFly() {
-    if (horicandy == 760){
-        candyright.style.display = "none"
-    }    
-    horicandy += stepx
-    candyright.style.left = horicandy + "px"
+  if (horicandy >= 760) {
+    candyright.style.display = "none"
+  }
+  horicandy += stepx
+  candyright.style.left = horicandy + "px"
 }
 
- 
+
 game()
 
 // window.addEventListener('keydown', function (e) {

@@ -1,79 +1,83 @@
-#map{
-    width: 800px ;
-    height:800px;
-    position: relative;
-    background-image: url("./Assets/background-map.png");
-    background-size: contain; 
+#map {
+  width: 800px;
+  height: 800px;
+  position: relative;
+  background-image: url("./Assets/background-map-traps.png");
+  background-size: contain;
 }
 
-#score{
-    width: 800px ;
-    height:50px;
-    background-color: rgb(89, 118, 109);
-    position: relative;
-    background-size: contain; 
+#score {
+  width: 800px;
+  height: 70px;
+  background-color: rgb(89, 118, 109);
+  position: relative;
+  background-size: contain;
+  margin: auto;
+  font-size: 50px;
+  font-family: 'Courier New', Courier, monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#screen{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: top;
+#screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: top;
 }
 
-#player{
-    width: 40px;
-    height:40px;
-    position: absolute;
-   
-    background-size: contain; 
+#player {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  transition: all 0.1s ease;
+  background-size: contain;
+
 }
 
 .back {
-    background-image: url(./Assets/Santa/back1.png), url(./Assets/Santa/back2.png), url(./Assets/Santa/back3.png);
-    }
-    
-.front{
-    background-image: url(./Assets/Santa/front1.png), url(./Assets/Santa/front2.png), url(./Assets/Santa/front3.png);
-    
-    }
-    
-.left{
-    background-image: url(./Assets/Santa/left1.png), url(./Assets/Santa/left2.png), url(./Assets/Santa/left3.png);
-    }
-    
-.right{
-    background-image: url(./Assets/Santa/right1.png), url(./Assets/Santa/right2.png), url(./Assets/Santa/right3.png);
-    }
-
-.trapx{
-    width: 40px ;
-    height:20px;
-    background-color: grey;
-    position: absolute;
+  background-image: url(./Assets/Santa/backgif.gif);
 }
 
-.trapy{
-    width: 20px ;
-    height:40px;
-    background-color: grey;
-    position: absolute;
+.front {
+  background-image: url(./Assets/Santa/frontgif.gif);
 }
 
-.candyleft{
-    background-image: url("./Assets/candyleft.png");
-    height: 20px;
-    width: 40px;
-    position: absolute;
-    background-size: contain;
+.left {
+  background-image: url(./Assets/Santa/leftgif.gif);
 }
 
-#candyright{
-    background-image: url("./Assets/candyright.png");
-    height: 20px;
-    width: 40px;
-    position: absolute;
-    background-size: contain;
+.right {
+  background-image: url(./Assets/Santa/rightgif.gif)
+}
+
+.trapx {
+  width: 40px;
+  height: 20px;
+  position: absolute;
+}
+
+.trapy {
+  width: 20px;
+  height: 40px;
+  position: absolute;
+}
+
+.candyleft {
+  background-image: url("./Assets/candyleft.png");
+  height: 20px;
+  width: 40px;
+  position: absolute;
+  background-size: contain;
+}
+
+#candyright {
+  background-image: url("./Assets/candyright.png");
+  height: 20px;
+  width: 40px;
+  position: absolute;
+  background-size: contain;
 }
 
 
@@ -95,5 +99,3 @@
     width: 20px;
     position: absolute;
     background-size: contain; */
-
-
