@@ -53,7 +53,6 @@ function gameLoop() {
 }
 
 function update() {
-
   setPlayerDirection()
   player.update()
 }
@@ -120,13 +119,14 @@ function getRandomArrowX(min, max) {
   min = Math.ceil(0);
   max = Math.floor(20);
   return Math.floor(Math.random() * (max - min) + min);
-} console.log(getRandomArrowX())
-
+} 
+// console.log(getRandomArrowX())
 
 var stepx = 100
 function candyFly() {
 
   var trapShooting = getRandomArrowX()
+  console.log(trapShooting)
   candyright.style.left = trapsx[trapShooting].x + "px"
   console.log(candyright.style.left)
   candyright.style.top = trapsx[trapShooting].y + "px"
