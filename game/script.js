@@ -5,19 +5,13 @@ import { score } from "./score.js"
 
 const map = document.getElementById("map")
 
-const trapsx = []
-const trapsy = []
-
+const traps = []
+console.log(traps)
 const player = new Player()
-const arrow = new Arrow()
+const arrow1 = new Arrow("down", 400 , 400)
+const arrow2 = new Arrow("left", 100 , 100)
 
 // const traps = [new Trap("top",20,0), new Trap ("top", 100, 0)]
-
-const candyright = document.getElementById("candyright")
-const candyleft = document.getElementById("candyleft")
-const candyup = document.getElementById("candyup")
-const cadydown = document.getElementById("candydown")
-
 
 function createTrapsArray() {
   let startingPointTop = 20
@@ -27,22 +21,22 @@ function createTrapsArray() {
 
   for (let i = 1; i <= 10; i++) {
     var trap = new Trap("top", startingPointTop, 0)
-    trapsx.push(trap)
+    traps.push(trap)
     startingPointTop += 80
   }
   for (let j = 1; j <= 10; j++) {
     var trap = new Trap("down", startingPointDown, 780)
-    trapsx.push(trap)
+    traps.push(trap)
     startingPointDown += 80
   }
   for (let k = 1; k <= 10; k++) {
     var trap = new Trap("left", 0, startingPointLeft)
-    trapsy.push(trap)
+    traps.push(trap)
     startingPointLeft += 80
   }
   for (let l = 1; l <= 10; l++) {
     var trap = new Trap("right", 780, startingPointRight)
-    trapsy.push(trap)
+    traps.push(trap)
     startingPointRight += 80
   }
 }
@@ -55,16 +49,18 @@ function gameLoop() {
 function update() {
   setPlayerDirection()
   player.update()
+  arrow1.candyFly()
+  arrow2.candyFly()
 }
 
 function draw() {
+  arrow1.drawX(map)
+  arrow2.drawX(map)
   player.draw()
-  drawTrapsX(trapsx)
-  drawTrapsY(trapsy)
 }
 
 var horicandy = 0
-var vertcandy = 20
+var vertcandy = 0
 
 function drawTrapsX(trapsx) {
   for (let i = 0; i < trapsx.length; i++) {
@@ -85,7 +81,6 @@ const keys = {
   ArrowRight: false
 }
 
-
 function keyEvents(e) {
   if (keys[e.code] !== undefined) { // check if its a key we are listening for
     keys[e.code] = event.type === "keydown" // set the state up or down
@@ -105,54 +100,44 @@ function setPlayerDirection() {
   if (keys.ArrowRight) { player.direction.x = 1 }
 }
 
-
 function game() {
   createTrapsArray()
   score()
   const start = setInterval(function () {
     gameLoop()
-    candyFly()
   }, 60)
 }
 
-function getRandomArrowX(min, max) {
-  min = Math.ceil(0);
-  max = Math.floor(20);
-  return Math.floor(Math.random() * (max - min) + min);
-} 
-// console.log(getRandomArrowX())
-
-var stepx = 100
-function candyFly() {
-
-  var trapShooting = getRandomArrowX()
-  console.log(trapShooting)
-  candyright.style.left = trapsx[trapShooting].x + "px"
-  console.log(candyright.style.left)
-  candyright.style.top = trapsx[trapShooting].y + "px"
-  
-  if (horicandy >= 760) {
-    candyright.style.display = "none"
-  }
-  horicandy += stepx
-  candyright.style.left = horicandy + "px"
+function getRandomNumbers (howManyNumbers){
+  var numbers = []
+  numbers.push(getRandom(0,40,howManyNumbers))
+  return numbers
 }
 
+function getRandom(min, max, howManyNumbers) {
+  var arrArrow = []
+  for (let i=0; i<howManyNumbers; i++){
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    arrArrow.push(Math.floor(Math.random() * (max - min) + min));
+  }return arrArrow
+} 
 
+// function createArrows(traps){
+//   var trapShooting = getRandomNumbers(4)
+//   var arrows = []
+//   for (let i = 0; i<trapShooting.length; i++){
+//     var arrow = new Arrow(traps[i].side, traps[i].x , traps[i].y)
+//     arrows.push(arrow)
+//     console.log(arrows)
+//   }return arrows
+// }createArrows(traps)
+
+//     snowball.style.left = trapsx[trapShooting].x + "px"
+//     console.log(candyright.style.left)
+//     snowball.style.top = trapsx[trapShooting].y + "px"
+    // new Arrow ("",candyright.style.left, candyright.style.top )
+
+console.log(traps)
+  
 game()
-
-// window.addEventListener('keydown', function (e) {
-//   if (e.key === 'ArrowUp') {
-//     direction.x = -1
-//     direction.y = 0
-//   } else if (e.key === 'ArrowDown') {
-//     direction.x = 1
-//     direction.y = 0
-//   } else if (e.key === 'ArrowLeft) {
-//     direction.y = -1
-//     direction.x = 0
-//   } else if (e.key === 'ArrowRight') {
-//     direction.y = 1
-//     direction.x = 0
-//   }
-// })

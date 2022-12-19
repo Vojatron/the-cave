@@ -10,41 +10,64 @@
 // dentro de ese array elijamos un par de trampas al azar y usemos
 // la posición de esas trampas definirá el punto de inicio del 
 // proyecto. 
-const candyright = document.getElementById("candyright")
-const candyleft = document.getElementById("candyleft")
-const candyup = document.getElementById("candyup")
-const cadydown = document.getElementById("candydown")
-
+// const candyleft = document.getElementById("candyleft")
+// const candyup = document.getElementById("candyup")
+// const cadydown = document.getElementById("candydown")
 export function Arrow (side, x, y){
     this.domArrow = document.createElement("div")
     this.side = side
     this.x = x
     this.y = y 
+    this.step = 10
+    this.domArrow.setAttribute("class", "snowball")
+    map.appendChild(this.domArrow)
+}
+
+Arrow.prototype.candyFly = function(){
+
+    if (this.side == "top"){
+        this.y += this.step
+        
+    } else if (this.side == "down"){ 
+        this.y -= this.step
+    } else if (this.side == "right"){
+        this.x -= this.step
+    }else if (this.side == "left"){
+        this.x += this.step 
+    }
+    
 }
 
 Arrow.prototype.drawX = function(map){
-    this.domArrow.setAttribute("class", "candyleft")
+    if (this.y >= 760 || this.y <= 0 || this.x <= 0 || this.x >= 760) {
+        this.domArrow.style.display = "none"
+    }
+
     this.domArrow.style.left = this.x + "px"
     this.domArrow.style.top = this.y + "px"
-    map.appendChild(this.domArrow)
 }
 
 let random = Math.random();
 
-function randomArrow(){
-    if (random > 0 && random <= 0.25){
-        return candyleft
+// function randomArrow(){
+//     if (random > 0 && random <= 0.25){
+//         return candyleft
 
-    } else if (random > 0.25 && random <= 0.50) {
-        return candyright
+//     } else if (random > 0.25 && random <= 0.50) {
+//         return candyright
 
-    } else if (random > 0.50 && random <= 0.75) {
-        return candyup
+//     } else if (random > 0.50 && random <= 0.75) {
+//         return candyup
 
-    } else {
-        return candydown
-    }
-}
+//     } else {
+//         return candydown
+//     }
+// }
 
-randomArrow()
-console.log (randomArrow())
+
+  // console.log(getRandomArrowX())
+
+  
+
+// randomArrow()
+// console.log (randomArrow())
