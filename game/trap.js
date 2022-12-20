@@ -7,7 +7,6 @@ export function Trap (side, x, y){
 
 
 Trap.prototype.draw = function(map){
-    this.domTrap.setAttribute("class", "trapx")
     this.domTrap.style.left = this.x + "px"
     this.domTrap.style.top = this.y + "px"
     map.appendChild(this.domTrap)

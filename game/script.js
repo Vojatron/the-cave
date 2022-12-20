@@ -1,15 +1,21 @@
 import { Player } from "./player.js"
 import { Trap } from "./trap.js"
 import { Arrow } from "./arrow.js"
-import { score } from "./score.js"
 
+const gameOverScreen = document.getElementsByClassName('gameover')[0]
+const tryAgainButton = document.getElementsByClassName('restart-button')[0]
+const startButton = document.getElementsByClassName('start-button')[0]
+const startScreen = document.getElementsByClassName('newgame')[0]
+var arrowsToRemove = document.getElementsByClassName("snowball")
 const map = document.getElementById("map")
+console.log(arrowsToRemove)
 
-const traps = []
+var traps = []
+var arrows = []
+var startid = 0
+var timer = 0
 
 const player = new Player()
-const arrow1 = new Arrow("down", 400 , 400)
-const arrow2 = new Arrow("left", 100 , 100)
 
 function createTrapsArray() {
   let startingPointTop = 20
@@ -42,32 +48,33 @@ function createTrapsArray() {
 function gameLoop() {
   update()
   draw()
-
 }
 
 function update() {
+  for (let i=0; i<arrows.length; i++){
+    arrows[i].candyFly()
+  }
 
-  // var arrows =  createArrows(traps)
-  // for (let i=0; i<arrows.length; i++){
-  //   console.log(arrows[i])
-  //   arrows[i].candyFly(map)
-  // }
+  for (let i=0; i<arrows.length; i++){
+    if ( arrows[i].x < player.position.hori + 40  &&
+      arrows[i].y < player.position.vert + 40 &&
+      arrows[i].x + 20 > player.position.hori &&
+      arrows[i].y + 20 > player.position.vert) {
+    // collision detected!
+    clearInterval(startid)
+    clearInterval(timer)
+    gameover()
 
+  }
+  }
   setPlayerDirection()
   player.update()
-  arrow1.candyFly()
-  arrow2.candyFly()
-
 }
 
 function draw() {
-// var arrows =  createArrows(traps)
-  // for (let i=0; i<arrows.length; i++){
-  //   console.log(arrows[i])
-  //   arrows[i].draw(map)
-  // }
-  arrow1.draw(map)
-  arrow2.draw(map)
+  for (let i=0; i<arrows.length; i++){
+    arrows[i].draw(map)
+  }
   player.draw()
 }
 
@@ -97,26 +104,13 @@ function setPlayerDirection() {
   if (keys.ArrowRight) { player.direction.x = 1 }
 }
 
-function game() {
-  createTrapsArray()
-  score()
-
-  const start = setInterval(function () {
-    gameLoop()
-  }, 60)
-}
-
 function createArrows(traps){
-    var randomNumber = getRandom(0, 40, 15)
-    console.log(randomNumber)
-    var arrows = []
+    var randomNumber = getRandom(0, 40, 6)
 
     for (let i=0; i < randomNumber.length; i++ ){
       var arrow = new Arrow (traps[randomNumber[i]].side, traps[randomNumber[i]].x, traps[randomNumber[i]].y)
       arrows.push(arrow)
     }
-    console.log(arrows)
-    return arrows
 }
   
   console.log(traps)
@@ -130,5 +124,72 @@ function getRandom(min, max, howManyNumbers) {
   }return arrArrow
 } 
 
-game()
+
+function game() {
+  createTrapsArray()
+  createArrows(traps)
+  console.log(arrows)
+  score()
+
+  startid = setInterval(function () {
+    gameLoop()
+  }, 60)
+}
+
+function start() {
+    startScreen.classList.remove('newgame')
+    startScreen.classList.add('hide')
+    startButton.classList.remove('start-button')
+    startButton.classList.add('hide')
+    game()
+  }
+  
+  startButton.addEventListener('click', start)
+
+  function gameover() {
+    gameOverScreen.classList.remove('hide')
+    gameOverScreen.classList.add('gameover')
+    tryAgainButton.classList.remove('hide')
+    tryAgainButton.classList.add('restart-button')
+  }
+
+  tryAgainButton.addEventListener('click', restart)
+
+  var number = 0
+
+function score (){
+
+  var score = document.getElementsByClassName("score-number")[0]
+       timer = setInterval(function(){
+        score.innerHTML = number 
+        number += 1
+    }, 1000)
+}
+
+
+function restart (){
+  tryAgainButton.classList.add('hide')
+  gameOverScreen.classList.add('hide')
+
+  for (let i=0; i < arrowsToRemove.length; i++){
+    map.removeChild(arrowsToRemove[i])
+  }
+
+  traps = []
+  arrows = []
+  number = 0
+  player.position = {hori: 400, vert: 400}
+
+  startid = setInterval(function () {
+    gameLoop()
+  }, 60)
+
+  score()
+}
+
+
+gameOverScreen.classList.remove('newgame')
+gameOverScreen.classList.add('hide')
+tryAgainButton.classList.remove('start-button')
+tryAgainButton.classList.add('hide')
 
