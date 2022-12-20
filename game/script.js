@@ -6,12 +6,10 @@ import { score } from "./score.js"
 const map = document.getElementById("map")
 
 const traps = []
-console.log(traps)
+
 const player = new Player()
 const arrow1 = new Arrow("down", 400 , 400)
 const arrow2 = new Arrow("left", 100 , 100)
-
-// const traps = [new Trap("top",20,0), new Trap ("top", 100, 0)]
 
 function createTrapsArray() {
   let startingPointTop = 20
@@ -44,34 +42,33 @@ function createTrapsArray() {
 function gameLoop() {
   update()
   draw()
+
 }
 
 function update() {
+
+  // var arrows =  createArrows(traps)
+  // for (let i=0; i<arrows.length; i++){
+  //   console.log(arrows[i])
+  //   arrows[i].candyFly(map)
+  // }
+
   setPlayerDirection()
   player.update()
   arrow1.candyFly()
   arrow2.candyFly()
+
 }
 
 function draw() {
-  arrow1.drawX(map)
-  arrow2.drawX(map)
+// var arrows =  createArrows(traps)
+  // for (let i=0; i<arrows.length; i++){
+  //   console.log(arrows[i])
+  //   arrows[i].draw(map)
+  // }
+  arrow1.draw(map)
+  arrow2.draw(map)
   player.draw()
-}
-
-var horicandy = 0
-var vertcandy = 0
-
-function drawTrapsX(trapsx) {
-  for (let i = 0; i < trapsx.length; i++) {
-    trapsx[i].drawX(map)
-  }
-}
-
-function drawTrapsY(trapsy) {
-  for (let i = 0; i < trapsy.length; i++) {
-    trapsy[i].drawY(map)
-  }
 }
 
 const keys = {
@@ -103,17 +100,27 @@ function setPlayerDirection() {
 function game() {
   createTrapsArray()
   score()
+
   const start = setInterval(function () {
     gameLoop()
   }, 60)
 }
 
-function getRandomNumbers (howManyNumbers){
-  var numbers = []
-  numbers.push(getRandom(0,40,howManyNumbers))
-  return numbers
-}
+function createArrows(traps){
+    var randomNumber = getRandom(0, 40, 15)
+    console.log(randomNumber)
+    var arrows = []
 
+    for (let i=0; i < randomNumber.length; i++ ){
+      var arrow = new Arrow (traps[randomNumber[i]].side, traps[randomNumber[i]].x, traps[randomNumber[i]].y)
+      arrows.push(arrow)
+    }
+    console.log(arrows)
+    return arrows
+}
+  
+  console.log(traps)
+  
 function getRandom(min, max, howManyNumbers) {
   var arrArrow = []
   for (let i=0; i<howManyNumbers; i++){
@@ -123,21 +130,5 @@ function getRandom(min, max, howManyNumbers) {
   }return arrArrow
 } 
 
-// function createArrows(traps){
-//   var trapShooting = getRandomNumbers(4)
-//   var arrows = []
-//   for (let i = 0; i<trapShooting.length; i++){
-//     var arrow = new Arrow(traps[i].side, traps[i].x , traps[i].y)
-//     arrows.push(arrow)
-//     console.log(arrows)
-//   }return arrows
-// }createArrows(traps)
-
-//     snowball.style.left = trapsx[trapShooting].x + "px"
-//     console.log(candyright.style.left)
-//     snowball.style.top = trapsx[trapShooting].y + "px"
-    // new Arrow ("",candyright.style.left, candyright.style.top )
-
-console.log(traps)
-  
 game()
+

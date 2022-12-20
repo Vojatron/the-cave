@@ -38,7 +38,7 @@ Arrow.prototype.candyFly = function(){
     
 }
 
-Arrow.prototype.drawX = function(map){
+Arrow.prototype.draw = function(map){
     if (this.y >= 760 || this.y <= 0 || this.x <= 0 || this.x >= 760) {
         this.domArrow.style.display = "none"
     }
