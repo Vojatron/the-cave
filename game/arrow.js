@@ -32,5 +32,3 @@ Arrow.prototype.draw = function(map){
     this.domArrow.style.left = this.x + "px"
     this.domArrow.style.top = this.y + "px"
 }
-
-let random = Math.random();

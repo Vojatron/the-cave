@@ -6,16 +6,17 @@ const gameOverScreen = document.getElementsByClassName('gameover')[0]
 const tryAgainButton = document.getElementsByClassName('restart-button')[0]
 const startButton = document.getElementsByClassName('start-button')[0]
 const startScreen = document.getElementsByClassName('newgame')[0]
-var arrowsToRemove = document.getElementsByClassName("snowball")
 const map = document.getElementById("map")
-console.log(arrowsToRemove)
+
 
 var traps = []
 var arrows = []
-var startid = 0
-var timer = 0
-
-const player = new Player()
+var startid = null
+var timer = null
+let createArr = null
+var number = 0
+var backgroundMusic = new Audio("./Assets/music/pixelmusic.mp3")
+backgroundMusic.volume = 0.05
 
 function createTrapsArray() {
   let startingPointTop = 20
@@ -45,12 +46,12 @@ function createTrapsArray() {
   }
 }
 
-function gameLoop() {
-  update()
-  draw()
+function gameLoop(player) {
+  update(player)
+  draw(player)
 }
 
-function update() {
+function update(player) {
   for (let i=0; i<arrows.length; i++){
     arrows[i].candyFly()
   }
@@ -61,17 +62,15 @@ function update() {
       arrows[i].x + 20 > player.position.hori &&
       arrows[i].y + 20 > player.position.vert) {
     // collision detected!
-    clearInterval(startid)
-    clearInterval(timer)
-    gameover()
-
+        player.itsalive = false
+        gameover(player)
+    }
   }
-  }
-  setPlayerDirection()
+  setPlayerDirection(player)
   player.update()
 }
 
-function draw() {
+function draw(player) {
   for (let i=0; i<arrows.length; i++){
     arrows[i].draw(map)
   }
@@ -95,25 +94,29 @@ function keyEvents(e) {
 addEventListener("keyup", keyEvents)  // set up the listeners
 addEventListener("keydown", keyEvents)
 
-function setPlayerDirection() {
-  player.direction.x = 0
-  player.direction.y = 0
-  if (keys.ArrowUp) { player.direction.y = -1 }
-  if (keys.ArrowDown) { player.direction.y = 1 }
-  if (keys.ArrowLeft) { player.direction.x = -1 }
-  if (keys.ArrowRight) { player.direction.x = 1 }
+function setPlayerDirection(player) {
+  if(player.itsalive = true){
+    player.direction.x = 0
+    player.direction.y = 0
+    if (keys.ArrowUp) { player.direction.y = -1 }
+    if (keys.ArrowDown) { player.direction.y = 1 }
+    if (keys.ArrowLeft) { player.direction.x = -1 }
+    if (keys.ArrowRight) { player.direction.x = 1 }
+  }else{
+    player.sprite.setAttribute("class", "dead")
+  }
 }
 
+var balls = 5
+
 function createArrows(traps){
-    var randomNumber = getRandom(0, 40, 6)
+    var randomNumber = getRandom(0, 40, balls)
 
     for (let i=0; i < randomNumber.length; i++ ){
       var arrow = new Arrow (traps[randomNumber[i]].side, traps[randomNumber[i]].x, traps[randomNumber[i]].y)
       arrows.push(arrow)
     }
 }
-  
-  console.log(traps)
   
 function getRandom(min, max, howManyNumbers) {
   var arrArrow = []
@@ -124,15 +127,20 @@ function getRandom(min, max, howManyNumbers) {
   }return arrArrow
 } 
 
-
 function game() {
+  backgroundMusic.play()
+  const player = new Player()
   createTrapsArray()
   createArrows(traps)
-  console.log(arrows)
   score()
+  createArr = setInterval(function () {
+    createTrapsArray()
+    createArrows(traps)
+    balls += 1
+  }, 3000)
 
   startid = setInterval(function () {
-    gameLoop()
+    gameLoop(player)
   }, 60)
 }
 
@@ -146,50 +154,61 @@ function start() {
   
   startButton.addEventListener('click', start)
 
-  function gameover() {
+  function gameover(player) {
     gameOverScreen.classList.remove('hide')
     gameOverScreen.classList.add('gameover')
     tryAgainButton.classList.remove('hide')
     tryAgainButton.classList.add('restart-button')
+    backgroundMusic.pause()
+    clearInterval(startid)
+    clearInterval(timer)
+    clearInterval(createArr)
+    player.sprite.setAttribute("class", "dead")
+    
   }
 
   tryAgainButton.addEventListener('click', restart)
 
-  var number = 0
+
 
 function score (){
-
   var score = document.getElementsByClassName("score-number")[0]
+  score.innerHTML = 0
        timer = setInterval(function(){
-        score.innerHTML = number 
         number += 1
+        score.innerHTML = number 
     }, 1000)
 }
 
 
 function restart (){
+  var borrar = document.querySelectorAll("div.snowball")
+  console.log(borrar)
+
+  // for (let i=0; i < borrar.length; i++){
+  //   borrar[i].classList.remove("snowball")
+  //   borrar[i].classList.add("hide")
+  // }
+  
   tryAgainButton.classList.add('hide')
   gameOverScreen.classList.add('hide')
-
-  for (let i=0; i < arrowsToRemove.length; i++){
-    map.removeChild(arrowsToRemove[i])
-  }
-
-  traps = []
+  clearScreen()
+  game()
   arrows = []
+  traps = []
   number = 0
-  player.position = {hori: 400, vert: 400}
-
-  startid = setInterval(function () {
-    gameLoop()
-  }, 60)
-
-  score()
+  balls = 5
 }
-
 
 gameOverScreen.classList.remove('newgame')
 gameOverScreen.classList.add('hide')
 tryAgainButton.classList.remove('start-button')
 tryAgainButton.classList.add('hide')
 
+function clearScreen() {
+  var board = document.getElementById('map')
+  var childs = document.querySelectorAll('#map > *')
+  for (let i = 0; i < childs.length; i++) {
+      board.removeChild(childs[i])
+  }
+}

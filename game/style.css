@@ -11,9 +11,6 @@
   position: relative;
   background-image: url("./Assets/background-map-traps.png");
   background-size: contain;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 #score {
@@ -37,6 +34,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: top;
+  position: relative;
 }
 
 #player {
@@ -46,7 +44,6 @@
   transition: all 0.1s ease;
   background-size: contain;
   z-index: 1;
-
 }
 
 .back {
@@ -62,7 +59,7 @@
 }
 
 .right {
-  background-image: url(./Assets/Santa/rightgif.gif)
+  background-image: url(./Assets/Santa/rightgif.gif);
 }
 
 .dead {
@@ -92,7 +89,7 @@
 .restart-button{
   height: 35px;
   width: 142px;
-  margin-top: 100px;
+  margin-top: 380px;
   background-image: url("./Assets/boton\ tryagain.jpg");
   position: absolute;
   z-index: 3;
@@ -101,7 +98,7 @@
 .start-button{
   height: 35px;
   width: 142px;
-  margin-top: 100px;
+  margin-top: 380px;
   background-image: url("./Assets/boton\ empezar.jpg");
   position: absolute;
   z-index: 2;
@@ -110,8 +107,9 @@
 .newgame{
   height: 220px;
   width: 475px;
+  margin-top: 240px;
   background-image: url("./Assets/pantalla\ de\ inicio.jpg");
-  margin: auto;
+  /* margin: auto; */
   position: absolute;
   z-index: 2;
 
@@ -120,8 +118,10 @@
 .gameover{
   height: 220px;
   width: 475px;
+  margin-top: 240px;
   background-image: url("./Assets/pantalla\ de\ gameover.jpg");
   position: absolute;
+  z-index: 3;
 }
 
 .hide {

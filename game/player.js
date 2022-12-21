@@ -1,11 +1,15 @@
 export function Player() {
-  this.sprite = document.getElementById("player")
   this.position = { hori: 400, vert: 400 }
+  this.sprite = document.createElement("div")
+  this.sprite.setAttribute("id", "player")
+  this.sprite.setAttribute("class", "front")
+  map.appendChild(this.sprite)
   this.direction = { x: 0, y: 0 }
   this.stepx = 20
   this.stepy = 20
   this.width = 40
   this.height = 40
+  this.itsalive = true
 }
 
 Player.prototype.update = function () {
@@ -19,6 +23,7 @@ Player.prototype.draw = function () {
 }
 
 Player.prototype.movex = function () {
+
   if (this.position.hori + this.stepx * this.direction.x <= 800 - this.width && this.position.hori + this.stepx * this.direction.x >= 0) {
     this.position.hori += this.stepx * this.direction.x
   } 
@@ -32,7 +37,7 @@ Player.prototype.movex = function () {
 
 
 Player.prototype.movey = function () {
-  if (this.position.vert <= 760 - this.stepy * this.direction.y - this.height && this.position.vert + this.stepy * this.direction.y >= 0) {
+  if (this.position.vert <= 780 - this.stepy * this.direction.y - this.height && this.position.vert + this.stepy * this.direction.y >= 0) {
     this.position.vert += this.stepy * this.direction.y
     }
 
