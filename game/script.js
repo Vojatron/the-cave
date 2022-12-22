@@ -1,14 +1,18 @@
 import { Player } from "./player.js"
 import { Trap } from "./trap.js"
 import { Arrow } from "./arrow.js"
+import { Lives } from "./lives.js"
 
 const gameOverScreen = document.getElementsByClassName('gameover')[0]
 const tryAgainButton = document.getElementsByClassName('restart-button')[0]
 const startButton = document.getElementsByClassName('start-button')[0]
 const startScreen = document.getElementsByClassName('newgame')[0]
 const map = document.getElementById("map")
+const livesSpace = document.getElementsByClassName("livesSpace")[0]
+// const live = new Lives(map)
+// livesSpace.appendChild(live.sprite)
 
-
+var lives = []
 var traps = []
 var arrows = []
 var startid = null
@@ -16,7 +20,21 @@ var timer = null
 let createArr = null
 var number = 0
 var backgroundMusic = new Audio("./Assets/music/pixelmusic.mp3")
+var gameOverMusic = new Audio("./Assets/music/gameover/gameover.mp3")
 backgroundMusic.volume = 0.05
+
+createLives ()
+function createLives (){
+  var increment = 20;
+  for (let i = 0; i<3; i++){
+    var live = new Lives(map)
+    live.position +=
+    lives.push(live)
+    livesSpace.appendChild(live.sprite)
+    live.sprite.style.left += increment + "px"
+    increment += 40
+  }
+}
 
 function createTrapsArray() {
   let startingPointTop = 20
@@ -46,12 +64,13 @@ function createTrapsArray() {
   }
 }
 
+
 function gameLoop(player) {
   update(player)
   draw(player)
 }
 
-function update(player) {
+function update(player, lives) {
   for (let i=0; i<arrows.length; i++){
     arrows[i].candyFly()
   }
@@ -62,15 +81,15 @@ function update(player) {
       arrows[i].x + 20 > player.position.hori &&
       arrows[i].y + 20 > player.position.vert) {
     // collision detected!
-        player.itsalive = false
-        gameover(player)
+
+       gameover(player)
     }
   }
   setPlayerDirection(player)
   player.update()
 }
 
-function draw(player) {
+function draw(player,) {
   for (let i=0; i<arrows.length; i++){
     arrows[i].draw(map)
   }
@@ -115,6 +134,7 @@ function createArrows(traps){
     for (let i=0; i < randomNumber.length; i++ ){
       var arrow = new Arrow (traps[randomNumber[i]].side, traps[randomNumber[i]].x, traps[randomNumber[i]].y)
       arrows.push(arrow)
+    
     }
 }
   
@@ -127,12 +147,14 @@ function getRandom(min, max, howManyNumbers) {
   }return arrArrow
 } 
 
+
 function game() {
   backgroundMusic.play()
-  const player = new Player()
+  const player = new Player(map)
   createTrapsArray()
   createArrows(traps)
   score()
+
   createArr = setInterval(function () {
     createTrapsArray()
     createArrows(traps)
@@ -160,14 +182,13 @@ function start() {
     tryAgainButton.classList.remove('hide')
     tryAgainButton.classList.add('restart-button')
     backgroundMusic.pause()
-    var gameOverMusic = new Audio("./Assets/music/gameover/gameover.mp3")
+
     gameOverMusic.play()
     gameOverMusic.volume = 0.05
     clearInterval(startid)
     clearInterval(timer)
     clearInterval(createArr)
     player.sprite.setAttribute("class", "dead")
-    
   }
 
   tryAgainButton.addEventListener('click', restart)
@@ -184,23 +205,16 @@ function score (){
 }
 
 
-function restart (){
-  var borrar = document.querySelectorAll("div.snowball")
-  console.log(borrar)
-
-  // for (let i=0; i < borrar.length; i++){
-  //   borrar[i].classList.remove("snowball")
-  //   borrar[i].classList.add("hide")
-  // }
-  
+function restart (){ 
   tryAgainButton.classList.add('hide')
   gameOverScreen.classList.add('hide')
+  gameOverMusic.pause()
   clearScreen()
-  game()
   arrows = []
   traps = []
   number = 0
   balls = 5
+  game()
 }
 
 gameOverScreen.classList.remove('newgame')

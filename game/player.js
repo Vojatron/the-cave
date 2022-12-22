@@ -1,6 +1,6 @@
-export function Player() {
-  this.position = { hori: 400, vert: 400 }
+export function Player(map) {
   this.sprite = document.createElement("div")
+  this.position = { hori: 400, vert: 400 }
   this.sprite.setAttribute("id", "player")
   this.sprite.setAttribute("class", "front")
   map.appendChild(this.sprite)

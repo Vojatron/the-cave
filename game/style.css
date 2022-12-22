@@ -109,7 +109,6 @@
   width: 475px;
   margin-top: 240px;
   background-image: url("./Assets/pantalla\ de\ inicio.jpg");
-  /* margin: auto; */
   position: absolute;
   z-index: 2;
 
@@ -126,4 +125,21 @@
 
 .hide {
   display: none;
+}
+
+
+.livesSpace{
+  margin-left: 200px;
+  height: 40px;
+  width: 140px;
+  background-color: blue;
+  position: relative;
+}
+
+.lives{
+  height: 20px;
+  width: 20px;
+  background-color: red;
+  margin-top: 10px;
+  position: absolute;
 }
