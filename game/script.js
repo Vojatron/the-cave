@@ -160,6 +160,9 @@ function start() {
     tryAgainButton.classList.remove('hide')
     tryAgainButton.classList.add('restart-button')
     backgroundMusic.pause()
+    var gameOverMusic = new Audio("./Assets/music/gameover/gameover.mp3")
+    gameOverMusic.play()
+    gameOverMusic.volume = 0.05
     clearInterval(startid)
     clearInterval(timer)
     clearInterval(createArr)
