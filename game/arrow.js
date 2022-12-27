@@ -4,7 +4,7 @@ export function Arrow (side, x, y){
     this.side = side
     this.x = x
     this.y = y 
-    this.step = 10
+    this.step = Math.random() * 10 + 10
     this.domArrow.setAttribute("class", "snowball")
     map.appendChild(this.domArrow)
 }

@@ -13,6 +13,7 @@ const livesSpace = document.getElementsByClassName("livesSpace")[0]
 // livesSpace.appendChild(live.sprite)
 
 var lives = []
+var numLives = 3
 var traps = []
 var arrows = []
 var startid = null
@@ -23,18 +24,6 @@ var backgroundMusic = new Audio("./Assets/music/pixelmusic.mp3")
 var gameOverMusic = new Audio("./Assets/music/gameover/gameover.mp3")
 backgroundMusic.volume = 0.05
 
-createLives ()
-function createLives (){
-  var increment = 20;
-  for (let i = 0; i<3; i++){
-    var live = new Lives(map)
-    live.position +=
-    lives.push(live)
-    livesSpace.appendChild(live.sprite)
-    live.sprite.style.left += increment + "px"
-    increment += 40
-  }
-}
 
 function createTrapsArray() {
   let startingPointTop = 20
@@ -70,30 +59,33 @@ function gameLoop(player) {
   draw(player)
 }
 
-function update(player, lives) {
-  for (let i=0; i<arrows.length; i++){
+function update(player) {
+  for (let i = 0; i < arrows.length; i++) {
     arrows[i].candyFly()
   }
 
-  for (let i=0; i<arrows.length; i++){
-    if ( arrows[i].x < player.position.hori + 40  &&
+  for (let i = 0; i < arrows.length; i++) {
+    if (arrows[i].x < player.position.hori + 40 &&
       arrows[i].y < player.position.vert + 40 &&
       arrows[i].x + 20 > player.position.hori &&
       arrows[i].y + 20 > player.position.vert) {
-    // collision detected!
-
-       gameover(player)
+      // collision detected!
+      arrows[i].x = 800
+      arrows[i].y = 900
+      loseLives(player,lives)
+      // gameover(player)
     }
   }
   setPlayerDirection(player)
   player.update()
 }
 
-function draw(player,) {
-  for (let i=0; i<arrows.length; i++){
+function draw(player) {
+  for (let i = 0; i < arrows.length; i++) {
     arrows[i].draw(map)
   }
   player.draw()
+
 }
 
 const keys = {
@@ -148,12 +140,14 @@ function getRandom(min, max, howManyNumbers) {
 } 
 
 
-function game() {
+function game(lives) {
+  createLives (lives)
   backgroundMusic.play()
   const player = new Player(map)
   createTrapsArray()
   createArrows(traps)
   score()
+
 
   createArr = setInterval(function () {
     createTrapsArray()
@@ -167,11 +161,9 @@ function game() {
 }
 
 function start() {
-    startScreen.classList.remove('newgame')
     startScreen.classList.add('hide')
-    startButton.classList.remove('start-button')
     startButton.classList.add('hide')
-    game()
+    game(lives)
   }
   
   startButton.addEventListener('click', start)
@@ -214,7 +206,7 @@ function restart (){
   traps = []
   number = 0
   balls = 5
-  game()
+  game(lives)
 }
 
 gameOverScreen.classList.remove('newgame')
@@ -229,3 +221,48 @@ function clearScreen() {
       board.removeChild(childs[i])
   }
 }
+
+function createLives (lives){
+  var increment = 20;
+  for (let i = 0; i<3; i++){
+    var live = new Lives(map)
+    lives.push(live)
+    livesSpace.appendChild(live.sprite)
+    live.sprite.style.left += increment + "px"
+    increment += 40
+  }
+}
+
+function loseLives(player, lives) {
+
+  for (let i = 0; i < 1; i++) {
+    var live = document.getElementsByClassName("lives")[0]
+    var santa = document.getElementById("player")
+    console.log(lives)
+    console.log(live)
+    lives.splice(0, 1)
+    live.setAttribute("class", "hide")
+    numLives -= 1
+    
+    santa.setAttribute("id", "hide")
+
+    setTimeout(function () {
+      santa.setAttribute("id", "player")
+    }, 200)
+
+    setTimeout(function () {
+      santa.setAttribute("id", "hide")
+    }, 400)
+
+    setTimeout(function () {
+      santa.setAttribute("id", "player")
+    }, 600)
+  }
+  
+  if (numLives >= 1) {
+  } else {
+    gameover(player)
+    numLives = 3
+  }
+}
+

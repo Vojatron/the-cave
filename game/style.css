@@ -17,7 +17,7 @@
   width: 800px;
   height: 70px;
   background-color: rgb(89, 118, 109);
-  background-image: url("./Assets/marcador.png");
+  background-image: url("./Assets/marcador2.png");
   position: relative;
   background-size: contain;
   margin: auto;
@@ -64,6 +64,10 @@
 
 .dead {
   background-image: url(./Assets/Santa/dead.png);
+}
+
+.snowman {
+  background-image: url(./Assets/snowman.gif);
 }
 
 .trapx {
@@ -127,19 +131,30 @@
   display: none;
 }
 
+#hide {
+  display: none;
+}
+
+.score-number {
+flex: 1;
+text-align: center;
+}
 
 .livesSpace{
-  margin-left: 200px;
+  /* margin-left: 200px; */
   height: 40px;
   width: 140px;
-  background-color: blue;
   position: relative;
+  flex: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .lives{
   height: 20px;
   width: 20px;
-  background-color: red;
   margin-top: 10px;
+  margin-left: 120px;
   position: absolute;
+  background-image: url("./Assets/heart.png");
 }
