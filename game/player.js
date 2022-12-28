@@ -10,6 +10,7 @@ export function Player(map) {
   this.width = 40
   this.height = 40
   this.itsalive = true
+  this.isInmortal = false
 }
 
 Player.prototype.update = function () {
@@ -29,9 +30,11 @@ Player.prototype.movex = function () {
   } 
 
   if (this.direction.x == 1 ){
-    this.sprite.setAttribute("class", "right")
+    this.cleanMovement()
+    this.sprite.classList.add("right")
   } else if (this.direction.x == -1){
-    this.sprite.setAttribute("class", "left")
+    this.cleanMovement()
+    this.sprite.classList.add("left")
     }
   }
 
@@ -42,11 +45,18 @@ Player.prototype.movey = function () {
     }
 
     if (this.direction.y == 1 ){
-      this.sprite.setAttribute("class", "front")
+      this.cleanMovement()
+      this.sprite.classList.add("front")
     } else if (this.direction.y == -1){
-      this.sprite.setAttribute("class", "back")
+      this.cleanMovement()
+      this.sprite.classList.add("back")
       }
   }
+
+  Player.prototype.cleanMovement = function () {
+    this.sprite.classList.remove("left", "front", "back","right")
+  }
+
 
 
 

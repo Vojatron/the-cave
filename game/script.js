@@ -2,6 +2,7 @@ import { Player } from "./player.js"
 import { Trap } from "./trap.js"
 import { Arrow } from "./arrow.js"
 import { Lives } from "./lives.js"
+import { Hole } from "./holes.js"
 
 const gameOverScreen = document.getElementsByClassName('gameover')[0]
 const tryAgainButton = document.getElementsByClassName('restart-button')[0]
@@ -13,16 +14,19 @@ const livesSpace = document.getElementsByClassName("livesSpace")[0]
 // livesSpace.appendChild(live.sprite)
 
 var lives = []
+var holes = []
 var numLives = 3
 var traps = []
 var arrows = []
 var startid = null
 var timer = null
 let createArr = null
+var createHolesTimer = null
 var number = 0
 var backgroundMusic = new Audio("./Assets/music/pixelmusic.mp3")
 var gameOverMusic = new Audio("./Assets/music/gameover/gameover.mp3")
 backgroundMusic.volume = 0.05
+
 
 
 function createTrapsArray() {
@@ -72,10 +76,23 @@ function update(player) {
       // collision detected!
       arrows[i].x = 800
       arrows[i].y = 900
-      loseLives(player,lives)
-      // gameover(player)
+      loseLives(player, lives)
     }
   }
+
+  for (let i = 0; i < holes.length; i++) {
+    if (holes[i].position.hori < player.position.hori + 40 &&
+      holes[i].position.vert < player.position.vert + 40 &&
+      holes[i].position.hori + 30 > player.position.hori &&
+      holes[i].position.vert + 30 > player.position.vert) {
+      // collision detected!
+      holes[i].sprite.setAttribute("class","hide")
+      holes[i].position.hori = 900
+      holes[i].position.vert = 900
+      loseLives(player, lives)
+    }
+  }
+
   setPlayerDirection(player)
   player.update()
 }
@@ -146,7 +163,9 @@ function game(lives) {
   const player = new Player(map)
   createTrapsArray()
   createArrows(traps)
+  createHoles (map)
   score()
+  console.log(lives)
 
 
   createArr = setInterval(function () {
@@ -174,12 +193,12 @@ function start() {
     tryAgainButton.classList.remove('hide')
     tryAgainButton.classList.add('restart-button')
     backgroundMusic.pause()
-
     gameOverMusic.play()
     gameOverMusic.volume = 0.05
     clearInterval(startid)
     clearInterval(timer)
     clearInterval(createArr)
+    clearInterval(createHolesTimer)
     player.sprite.setAttribute("class", "dead")
   }
 
@@ -206,6 +225,9 @@ function restart (){
   traps = []
   number = 0
   balls = 5
+  holes = []
+  lives = []
+  numLives = 3
   game(lives)
 }
 
@@ -234,35 +256,49 @@ function createLives (lives){
 }
 
 function loseLives(player, lives) {
-
-  for (let i = 0; i < 1; i++) {
-    var live = document.getElementsByClassName("lives")[0]
-    var santa = document.getElementById("player")
-    console.log(lives)
-    console.log(live)
-    lives.splice(0, 1)
-    live.setAttribute("class", "hide")
-    numLives -= 1
-    
-    santa.setAttribute("id", "hide")
-
-    setTimeout(function () {
-      santa.setAttribute("id", "player")
-    }, 200)
-
-    setTimeout(function () {
-      santa.setAttribute("id", "hide")
-    }, 400)
-
-    setTimeout(function () {
-      santa.setAttribute("id", "player")
-    }, 600)
-  }
   
-  if (numLives >= 1) {
-  } else {
-    gameover(player)
-    numLives = 3
-  }
-}
+    var live = document.getElementsByClassName("lives")[0]
 
+    // if (player.isInmortal){
+    //   return
+    // }
+    
+    if (numLives > 0) {
+      // player.isInmortal = true
+      numLives -= 1
+      lives.splice(0, 1)
+      live.setAttribute("id", "hide")
+      live.remove()
+
+      player.cleanMovement()
+      player.sprite.classList.add("hide")
+
+      setTimeout(function () {
+        player.sprite.classList.remove("hide")
+      }, 200)
+
+      setTimeout(function () {
+        player.cleanMovement()
+        player.sprite.classList.add("hide")
+      }, 400)
+
+      setTimeout(function () {
+        player.sprite.classList.remove("hide")
+        player.sprite.classList.add("front")
+      }, 600)
+
+    } if (numLives == 0) {
+      gameover(player)
+    }
+    console.log(live)
+  }
+
+function createHoles (map) {
+  createHolesTimer = setInterval(function(){
+  var hole = new Hole(map)
+  hole.position.hori = getRandom(0, 760, 1)[0]
+  hole.position.vert = getRandom(40, 760, 1)[0]
+  holes.push(hole)
+  hole.draw(map)
+}, 1000)
+}
